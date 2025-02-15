@@ -25,10 +25,12 @@
       "@pages/*": ["src/pages/*"],
       "@routes/*": ["src/routes/*"],
       "@store/*": ["src/store/*"],
-      "@customTypes/*": ["src/types/*"],
+      "@store": ["src/store/index"],
       "@styles/*": ["src/styles/*"],
       "@layouts/*": ["src/layouts/*"],
       "@util/*": ["src/util/*"],
+      "@util": ["src/util/index"],
+      "@types": ["src/types/index"],
       "@services/*": ["src/services/*"]
     },
     /* Linting */

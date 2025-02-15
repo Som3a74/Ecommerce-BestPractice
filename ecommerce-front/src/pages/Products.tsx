@@ -1,38 +1,25 @@
 import { Container } from "react-bootstrap";
 import { Product } from "@components/eCommerce";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { useEffect } from "react";
-import fetchProducts from "@store/products/act/actProducts";
-import { useParams } from "react-router-dom";
-import { prodectsCleanUp } from "@store/products/productsSlice";
 import { Loading } from "@components/feedback";
-import { GridList } from "@components/common";
+import { GridList, Heading } from "@components/common";
+import { memo } from "react";
+import useProducts from "@hooks/useProducts";
 
-const Products = () => {
-
-  const { loading, error, records } = useAppSelector((state) => state.ProductsReducer)
-  const dispatch = useAppDispatch()
-
-
-  const { prefix } = useParams()
-
-  useEffect(() => {
-    if (prefix) {
-      dispatch(fetchProducts(prefix))
-    }
-    return () => {
-      dispatch(prodectsCleanUp())
-    }
-  }, [dispatch, prefix])
+const Products = memo(() => {
+  const { loading, error, productsFullInfo, prefix } = useProducts()
 
   return (
-
     <Container>
-      <Loading loading={loading} error={error} >
-        <GridList records={records} renderItem={(record) => <Product {...record} />} />
+      <Heading title={`Products ${prefix}`} />
+      <Loading loading={loading} error={error} type="product">
+        <GridList
+          emptyMessage="There are no Products"
+          records={productsFullInfo}
+          renderItem={(record) => <Product {...record} />}
+        />
       </Loading>
     </Container>
   );
-};
+});
 
 export default Products;

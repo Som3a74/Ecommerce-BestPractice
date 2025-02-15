@@ -1,26 +1,20 @@
-// import { NavLink } from "react-router-dom";
-import { HeaderBasket } from "../../eCommerce";
 import { Badge, Navbar, Nav, Container } from "react-bootstrap";
 import style from "./styles.module.css";
 import { NavLink } from "react-router-dom";
+import HeaderLeftBar from "./HeaderLeftBar/HeaderLeftBar";
 const { headerContainer, headerLogo } = style
 
 function Header() {
+
     return (
         <header>
             <div className={headerContainer}>
                 <h1 className={headerLogo}>
-                    <span>Our</span> <Badge bg="info">Ecom</Badge>
+                    <span>Our</span> <Badge bg="info">eCom</Badge>
                 </h1>
-
-                <HeaderBasket />
+                <HeaderLeftBar />
             </div>
-            <Navbar
-                expand="lg"
-                className="bg-body-tertiary"
-                bg="dark"
-                data-bs-theme="dark"
-            >
+            <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">

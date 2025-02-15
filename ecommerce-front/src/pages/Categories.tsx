@@ -1,26 +1,19 @@
 import { Container } from "react-bootstrap";
 import { Category } from "@components/eCommerce";
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { useEffect } from "react";
-import fetchCategories from "@store/categories/act/actGetCategories";
 import { Loading } from "@components/feedback";
 import GridList from './../components/common/GridList/GridList';
+import { Heading } from "@components/common";
+import { useCategories } from "@hooks/useCategories";
 
 const Categories = () => {
-
-  const { loading, error, records } = useAppSelector((state) => state.categoriesReducer)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    if (!records.length) {
-      dispatch(fetchCategories())
-    }
-  }, [dispatch, records.length])
-
+  const { loading, error, records } = useCategories()
+  
   return (
     <Container>
-      <Loading loading={loading} error={error} >
+      <Heading title='Categories' />
+      <Loading loading={loading} error={error} type="category">
         <GridList
+         emptyMessage="There are no categories"
           records={records}
           renderItem={(record) => <Category {...record} />}
         />

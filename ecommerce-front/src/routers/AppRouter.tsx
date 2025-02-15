@@ -1,25 +1,45 @@
-import Home from '@pages/Home';
-import Categories from '@pages/Categories';
-import Products from '@pages/Products';
-import AboutUs from '@pages/AboutUs';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from '@pages/Login';
-import Register from '@pages/Register';
+import { lazy, Suspense } from "react";
+const MainLayout = lazy(() => import("./../layout/MainLayout/MainLayout"));
+const Home = lazy(() => import("@pages/Home"));
+const Categories = lazy(() => import("@pages/Categories"));
+const Products = lazy(() => import("@pages/Products"));
+const AboutUs = lazy(() => import("@pages/AboutUs"));
+const Login = lazy(() => import("@pages/Login"));
+const Register = lazy(() => import("@pages/Register"));
+const Cart = lazy(() => import("@pages/Cart"));
+const WishList = lazy(() => import("@pages/WishList"));
 import Error from '@pages/Error';
-import MainLayout from './../layout/MainLayout/MainLayout';
+import { LottieHandler, PageSuspenseFallback } from "@components/feedback";
+
 
 const router = createBrowserRouter([
     {
-        path: "/", element: <MainLayout />, errorElement: <Error />, children: [
-            { index: true, element: <Home /> },
-            { path: "Categories", element: <Categories /> },
-            { path: "AboutUs", element: <AboutUs /> },
-            { path: "Login", element: <Login /> },
-            { path: "Register", element: <Register /> },
-            { path: "Error", element: <Error /> },
+        path: "/",
+        element: (
+            <Suspense
+                fallback={
+                    <div style={{ marginTop: "10%" }}>
+                        <LottieHandler type="loading" message="Loading please wait..." />
+                    </div>
+                }
+            >
+                <MainLayout />
+            </Suspense>
+        ),
+        errorElement: <Error />,
+        children: [
+            { index: true, element: <PageSuspenseFallback><Home /></PageSuspenseFallback> },
+            { path: "Categories", element: <PageSuspenseFallback><Categories /></PageSuspenseFallback> },
+            { path: "AboutUs", element: <PageSuspenseFallback><AboutUs /></PageSuspenseFallback> },
+            { path: "Login", element: <PageSuspenseFallback><Login /></PageSuspenseFallback> },
+            { path: "Register", element: <PageSuspenseFallback><Register /></PageSuspenseFallback> },
+            { path: "Cart", element: <PageSuspenseFallback><Cart /></PageSuspenseFallback> },
+            { path: "wishList", element: <PageSuspenseFallback><WishList /></PageSuspenseFallback> },
+            { path: "Error", element: <PageSuspenseFallback><Error /></PageSuspenseFallback> },
             {
                 path: "categories/Products/:prefix",
-                element: <Products />,
+                element: <PageSuspenseFallback><Products /></PageSuspenseFallback>,
                 loader: ({ params }) => {
                     if (typeof params.prefix !== "string" || !/^[a-z]+$/i.test(params.prefix)) {
                         throw new Response("Bad Request", { statusText: "Category not found", status: 400 });
@@ -27,7 +47,6 @@ const router = createBrowserRouter([
                     return true;
                 },
             },
-     
         ],
     },
 ]);
@@ -37,6 +56,3 @@ const AppRouter = () => {
 }
 
 export default AppRouter
-
-
-

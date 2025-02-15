@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import type { PayloadAction } from '@reduxjs/toolkit'
 import fetchCategories from './act/actGetCategories';
-import { TLoading } from '@customTypes/shared';
-import { Tcategort } from '@customTypes/Category';
+
+import { TCategory, TLoading } from "@types";
 
 export interface TCategories {
-    records: Tcategort[];
+    records: TCategory[];
     loading: TLoading;
     error: string | null;
 }
@@ -19,7 +18,11 @@ const initialState: TCategories = {
 export const categoriesSlice = createSlice({
     name: 'categoriesSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        categoriesRecordsCleanUp: (state) => {
+            state.records = [];
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchCategories.pending, (state) => {
             state.loading = 'pending'
@@ -36,7 +39,5 @@ export const categoriesSlice = createSlice({
         })
     },
 })
-
-// export const { increment, decrement, incrementByAmount } = categoriesSlice.actions
-
+export const { categoriesRecordsCleanUp } = categoriesSlice.actions
 export default categoriesSlice.reducer

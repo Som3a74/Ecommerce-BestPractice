@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 // import type { PayloadAction } from '@reduxjs/toolkit'
 import fetchProducts from './act/actProducts';
-import { TLoading } from '@customTypes/shared';
-import { TProduct } from '@customTypes/products';
+import { TProduct, TLoading, isString } from "@types";
 
 export interface TProducts {
     records: TProduct[];
@@ -35,7 +34,7 @@ export const ProductsSlice = createSlice({
         });
         builder.addCase(fetchProducts.rejected, (state, action) => {
             state.loading = 'failed'
-            if (action.payload && typeof action.payload === "string") { state.error = action.payload; }
+            if (isString(action.payload)) { state.error = action.payload; }
         })
     },
 })
